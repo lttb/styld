@@ -12,7 +12,7 @@ const styled = Styled({
     padding: '10px',
   },
   content: {
-    padding: ({ padding }) => padding,
+    padding: ({ padding }) => `${padding}px`,
   },
   h1: {
     color: 'red',
@@ -21,7 +21,7 @@ const styled = Styled({
     color: 'green',
   },
   button: {
-    margin: ({ margin = 0 }) => margin,
+    margin: ({ margin = 0 }) => `${margin}px`,
   },
 })
 
