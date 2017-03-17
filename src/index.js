@@ -4,15 +4,17 @@ import injectSheet from 'react-jss'
 import preset from 'jss-preset-default'
 
 import domElements from './dom-elements'
+import prepareStyles from './prepare-styles'
 
 
 const JSS = createJSS(preset())
 
 
 export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
-  const sheet = jss.createStyleSheet(styles).attach()
+  const stylesPrepared = prepareStyles(styles)
 
-  const Injector = injectSheet(styles)
+  const sheet = jss.createStyleSheet(stylesPrepared).attach()
+  const Injector = injectSheet(stylesPrepared)
 
   const createStyledElement = (tag, name = tag) => ({ children, attrs, ...data }) => {
     const Element = ({ classes }) => React.createElement(
@@ -37,13 +39,17 @@ export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
   }
 
   return Object
-    .keys(styles)
+    .keys(stylesPrepared)
     .reduce((acc, key) => {
-      const [elem, name] = key.split('__')
+      const [elem, name] = key.split('_')
 
       const isDomeElem = domElements.has(elem)
 
-      if (isDomeElem && name) {
+      if (!isDomeElem) {
+        return { ...acc, [elem]: createStyledElement('div', elem) }
+      }
+
+      if (name) {
         return {
           ...acc,
           [elem]: Object.assign(acc[elem] || {}, {
@@ -52,14 +58,10 @@ export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
         }
       }
 
-      if (isDomeElem) {
-        return {
-          ...acc,
-          [elem]: Object.assign(createStyledElement(elem), acc[elem]),
-        }
+      return {
+        ...acc,
+        [elem]: Object.assign(createStyledElement(elem), acc[elem]),
       }
-
-      return { ...acc, [elem]: createStyledElement('div', elem) }
     }, {})
 }
 

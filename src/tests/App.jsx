@@ -13,17 +13,20 @@ const styled = Styled({
   content: {
     padding: ({ padding }) => `${padding}px`,
   },
-  section__content: {
-    color: 'red',
+  section: {
+    _content: {
+      color: 'red',
+    },
   },
   text: {
     color: 'green',
   },
   h1: {
     color: 'red',
-  },
-  h1__text: {
-    composes: '$text',
+
+    _text: {
+      composes: '$text',
+    },
   },
   p: {
     border: '1px solid black',
