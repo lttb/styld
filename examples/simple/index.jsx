@@ -33,14 +33,14 @@ const Header = () => (
 
 const Content = () => (
   <styled.section
-    mix="content"
+    composes="content"
     attrs={{
       'data-name': 'content',
       ref: (c) => { console.log('SECTION REF', c) },
     }}
     padding={20}
   >
-    <styled.p mix="text">check this out</styled.p>
+    <styled.p composes="text">check this out</styled.p>
 
     <styled.button>first button</styled.button>
     <styled.button margin={10}>second button</styled.button>

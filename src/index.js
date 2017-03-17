@@ -8,7 +8,7 @@ import domElements from './dom-elements'
 
 const JSS = createJSS(preset())
 
-const getClasses = ({ mix = [], classes = {} }) => mix
+const getClasses = ({ composes = [], classes = {} }) => composes
   .reduce((acc, className) => acc.concat(classes[className] || []), [])
   .join(' ')
 
@@ -18,14 +18,14 @@ export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
 
   const Injector = injectSheet(styles)
 
-  const createStyledElement = (tag, name = tag) => ({ mix = '', children, attrs, force, ...data }) => {
+  const createStyledElement = (tag, name = tag) => ({ composes = '', children, attrs, force, ...data }) => {
     const Element = ({ classes }) => React.createElement(
       tag,
       {
         ...attrs,
         className: getClasses({
           classes,
-          mix: mix.split(' ').concat(force ? [] : name),
+          composes: composes.split(' ').concat(force ? [] : name),
         }),
       },
       children,
