@@ -13,14 +13,21 @@ const styled = Styled({
   content: {
     padding: ({ padding }) => `${padding}px`,
   },
-  h1: {
+  section__content: {
     color: 'red',
-  },
-  p: {
-    border: '1px solid black',
   },
   text: {
     color: 'green',
+  },
+  h1: {
+    color: 'red',
+  },
+  h1__text: {
+    composes: '$text',
+  },
+  p: {
+    border: '1px solid black',
+    composes: '$text $h1'.split(' '),
   },
   button: {
     margin: ({ margin = 0 }) => `${margin}px`,
@@ -30,23 +37,22 @@ const styled = Styled({
 const Header = () => (
   <styled.header>
     <styled.h1>Just H1</styled.h1>
-    <styled.h1 force composes="text">Force test</styled.h1>
+    <styled.h1.text>Force test</styled.h1.text>
   </styled.header>
 )
 
 const Content = () => (
-  <styled.section
-    composes="content"
+  <styled.section.content
     attrs={{
       'data-name': 'content',
     }}
     padding={20}
   >
-    <styled.p composes="text h1">compose multiple classes test</styled.p>
+    <styled.p>compose multiple classes test</styled.p>
 
     <styled.button>primitive test</styled.button>
     <styled.button margin={10}>dynamic primitive test</styled.button>
-  </styled.section>
+  </styled.section.content>
 )
 
 export default () => (

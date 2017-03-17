@@ -8,25 +8,23 @@ import domElements from './dom-elements'
 
 const JSS = createJSS(preset())
 
-const getClasses = ({ composes = [], classes = {} }) => composes
-  .reduce((acc, className) => acc.concat(classes[className] || []), [])
-  .join(' ')
-
 
 export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
   const sheet = jss.createStyleSheet(styles).attach()
 
   const Injector = injectSheet(styles)
 
-  const createStyledElement = (tag, name = tag) => ({ composes = '', children, attrs, force, ...data }) => {
+  const createStyledElement = (tag, name = tag) => ({ children, attrs, ...data }) => {
     const Element = ({ classes }) => React.createElement(
       tag,
       {
         ...attrs,
-        className: getClasses({
-          classes,
-          composes: composes.split(' ').concat(force ? [] : name),
-        }),
+
+        /*
+         * some problems with static/dynamic styles
+         * @see https://github.com/cssinjs/react-jss/issues/75
+         */
+        className: classes[name] || sheet.classes[name],
       },
       children,
     )
@@ -38,15 +36,31 @@ export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
     return React.createElement(Element, sheet)
   }
 
-  return new Proxy({}, {
-    get: (target, elem) => {
-      if (domElements.includes(elem)) {
-        return createStyledElement(elem)
+  return Object
+    .keys(styles)
+    .reduce((acc, key) => {
+      const [elem, name] = key.split('__')
+
+      const isDomeElem = domElements.has(elem)
+
+      if (isDomeElem && name) {
+        return {
+          ...acc,
+          [elem]: Object.assign(acc[elem] || {}, {
+            [name]: createStyledElement(elem, key),
+          }),
+        }
       }
 
-      return createStyledElement('div', elem)
-    },
-  })
+      if (isDomeElem) {
+        return {
+          ...acc,
+          [elem]: Object.assign(createStyledElement(elem), acc[elem]),
+        }
+      }
+
+      return { ...acc, [elem]: createStyledElement('div', elem) }
+    }, {})
 }
 
 export default prepareStyled()

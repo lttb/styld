@@ -14,11 +14,21 @@ const styled = Styled({
   content: {
     padding: ({ padding }) => `${padding}px`,
   },
-  h1: {
+  section__content: {
     color: 'red',
   },
   text: {
     color: 'green',
+  },
+  h1: {
+    color: 'red',
+  },
+  h1__text: {
+    composes: '$text',
+  },
+  p: {
+    border: '1px solid black',
+    composes: '$text $h1'.split(' '),
   },
   button: {
     margin: ({ margin = 0 }) => `${margin}px`,
@@ -27,24 +37,24 @@ const styled = Styled({
 
 const Header = () => (
   <styled.header>
-    <styled.h1>Styled JSS simple example</styled.h1>
+    <styled.h1>Just H1</styled.h1>
+    <styled.h1.text>Force test</styled.h1.text>
   </styled.header>
 )
 
 const Content = () => (
-  <styled.section
-    composes="content"
+  <styled.section.content
     attrs={{
       'data-name': 'content',
       ref: (c) => { console.log('SECTION REF', c) },
     }}
     padding={20}
   >
-    <styled.p composes="text">check this out</styled.p>
+    <styled.p>compose multiple classes test</styled.p>
 
-    <styled.button>first button</styled.button>
-    <styled.button margin={10}>second button</styled.button>
-  </styled.section>
+    <styled.button>primitive test</styled.button>
+    <styled.button margin={10}>dynamic primitive test</styled.button>
+  </styled.section.content>
 )
 
 const App = () => (
