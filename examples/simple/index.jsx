@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-import Styled from '../../lib'
+import Styled from '../../src'
 
 
 const styled = Styled({

@@ -8,6 +8,7 @@ const PORT = 3000
 const PATHS = {
   app: path.resolve(__dirname),
   build: path.resolve(__dirname, 'build'),
+  jssStyled: path.resolve(__dirname, '../../src'),
 }
 
 module.exports = {
@@ -23,6 +24,7 @@ module.exports = {
         test: /\.jsx?$/,
         include: [
           PATHS.app,
+          PATHS.jssStyled,
         ],
         use: [
           'babel-loader',

@@ -2,6 +2,9 @@
   presets: [
     'react',
   ],
+  plugins: [
+    ['transform-object-rest-spread', { useBuiltIns: true }],
+  ],
   env: {
     development: {
       plugins: [
