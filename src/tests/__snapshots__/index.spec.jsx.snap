@@ -1,0 +1,32 @@
+exports[`test renders correctly 1`] = `
+<div
+  className="app-0-0">
+  <header
+    className="header-0-1">
+    <h1
+      className="h1-0-3">
+      Just H1
+    </h1>
+    <h1
+      className="text-0-5">
+      Force test
+    </h1>
+  </header>
+  <section
+    className="content-0-14 content-0-9"
+    data-name="content">
+    <p
+      className="text-0-5 h1-0-3 p-0-4">
+      compose multiple classes test
+    </p>
+    <button
+      className="button-0-6">
+      primitive test
+    </button>
+    <button
+      className="button-0-24 button-0-22">
+      dynamic primitive test
+    </button>
+  </section>
+</div>
+`;
