@@ -1,10 +1,10 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-import Styled from '../../src'
+import injectStyled from '../../src'
 
 
-const styled = Styled({
+const styles = {
   app: {
     margin: '50px',
   },
@@ -23,15 +23,15 @@ const styled = Styled({
   button: {
     margin: ({ margin = 0 }) => `${margin}px`,
   },
-})
+}
 
-const Header = () => (
+const Header = ({ styled }) => (
   <styled.header>
     <styled.h1>Styled JSS simple example</styled.h1>
   </styled.header>
 )
 
-const Content = () => (
+const Content = ({ styled }) => (
   <styled.section
     composes="content"
     attrs={{
@@ -47,13 +47,13 @@ const Content = () => (
   </styled.section>
 )
 
-const App = () => (
+const App = injectStyled(styles)(({ styled }) => (
   <styled.app>
-    <Header />
+    <Header styled={styled} />
 
-    <Content />
+    <Content styled={styled} />
   </styled.app>
-)
+))
 
 
 render(<App />, document.querySelector('#app'))

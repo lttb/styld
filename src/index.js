@@ -1,5 +1,5 @@
 import { create as createJSS } from 'jss'
-import React from 'react'
+import React, { Component } from 'react'
 import injectSheet from 'react-jss'
 import preset from 'jss-preset-default'
 
@@ -49,4 +49,19 @@ export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
   })
 }
 
-export default prepareStyled()
+export const Styled = prepareStyled()
+
+export default (styles, StyledFunc = Styled) => Element =>
+  class StyledComponent extends Component {
+    styles = { ...styles, ...this.props.styles }
+
+    componentWillMount() {
+      this.styled = StyledFunc(this.styles)
+    }
+
+    render = () => React.createElement(Element, {
+      ...this.props,
+      styled: this.styled,
+      styles: this.styles,
+    })
+  }
