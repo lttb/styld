@@ -4,7 +4,7 @@ import injectSheet from 'react-jss'
 import preset from 'jss-preset-default'
 
 import domElements from './dom-elements'
-import prepareStyles from './prepare-styles'
+import prepareStyles, { styledClassFlag } from './prepare-styles'
 
 
 const JSS = createJSS(preset())
@@ -41,7 +41,7 @@ export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
   return Object
     .keys(stylesPrepared)
     .reduce((acc, key) => {
-      const [elem, name] = key.split('_')
+      const [elem, name] = key.split(styledClassFlag)
 
       const isDomeElem = domElements.has(elem)
 

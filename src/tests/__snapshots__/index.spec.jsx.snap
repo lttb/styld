@@ -4,27 +4,27 @@ exports[`test renders correctly 1`] = `
   <header
     className="header-0-1">
     <h1
-      className="h1-0-5">
+      className="h1-0-6">
       Just H1
     </h1>
     <h1
-      className="h1__text-0-6 text-0-4">
+      className="h1_text-0-7 h1-0-6 text-0-5">
       Force test
     </h1>
   </header>
   <section
-    className="section__content-0-3"
+    className="section_content-0-4 section-0-3"
     data-name="content">
     <p
-      className="p-0-7 text-0-4 h1-0-5">
+      className="p-0-8 text-0-5 h1-0-6">
       compose multiple classes test
     </p>
     <button
-      className="button-0-8">
+      className="button-0-9">
       primitive test
     </button>
     <button
-      className="button-0-30 button-0-28">
+      className="button-0-33 button-0-31">
       dynamic primitive test
     </button>
   </section>
