@@ -1,4 +1,4 @@
-exports[`test renders correctly 1`] = `
+exports[`test renders correctly App 1`] = `
 <div
   className="app-0-0">
   <header
@@ -25,6 +25,39 @@ exports[`test renders correctly 1`] = `
     </button>
     <button
       className="button-0-24 button-0-22">
+      dynamic primitive test
+    </button>
+  </section>
+</div>
+`;
+
+exports[`test renders correctly AppStyled 1`] = `
+<div
+  className="app-0-25">
+  <header
+    className="header-0-26">
+    <h1
+      className="h1-0-28">
+      Just H1
+    </h1>
+    <h1
+      className="text-0-30">
+      Force test
+    </h1>
+  </header>
+  <section
+    className="content-0-39 content-0-34"
+    data-name="content">
+    <p
+      className="text-0-30 h1-0-28 p-0-29">
+      compose multiple classes test
+    </p>
+    <button
+      className="button-0-31">
+      primitive test
+    </button>
+    <button
+      className="button-0-49 button-0-47">
       dynamic primitive test
     </button>
   </section>

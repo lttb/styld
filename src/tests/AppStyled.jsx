@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Styled } from '../'
+import injectStyled from '../'
 
 
-const styled = Styled({
+const styles = {
   app: {
     margin: '50px',
   },
@@ -25,16 +25,16 @@ const styled = Styled({
   button: {
     margin: ({ margin = 0 }) => `${margin}px`,
   },
-})
+}
 
-const Header = () => (
+const Header = ({ styled }) => (
   <styled.header>
     <styled.h1>Just H1</styled.h1>
     <styled.h1 force composes="text">Force test</styled.h1>
   </styled.header>
 )
 
-const Content = () => (
+const Content = ({ styled }) => (
   <styled.section
     composes="content"
     attrs={{
@@ -49,10 +49,10 @@ const Content = () => (
   </styled.section>
 )
 
-export default () => (
+export default injectStyled(styles)(({ styled }) => (
   <styled.app>
-    <Header />
+    <Header styled={styled} />
 
-    <Content />
+    <Content styled={styled} />
   </styled.app>
-)
+))
