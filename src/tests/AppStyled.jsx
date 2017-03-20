@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Styled } from '../'
+import injectStyled from '../'
 
 
-const styled = Styled({
+const styles = {
   app: {
     margin: '50px',
   },
@@ -13,55 +13,46 @@ const styled = Styled({
   content: {
     padding: ({ padding }) => `${padding}px`,
   },
-  section: {
-    _content: {
-      color: 'red',
-    },
+  h1: {
+    color: 'red',
+  },
+  p: {
+    border: '1px solid black',
   },
   text: {
     color: 'green',
   },
-  h1: {
-    color: 'red',
-
-    _text: {
-      composes: '$text',
-    },
-  },
-  p: {
-    border: '1px solid black',
-    composes: '$text $h1'.split(' '),
-  },
   button: {
     margin: ({ margin = 0 }) => `${margin}px`,
   },
-})
+}
 
-const Header = () => (
+const Header = ({ styled }) => (
   <styled.header>
     <styled.h1>Just H1</styled.h1>
-    <styled.h1.text>Force test</styled.h1.text>
+    <styled.h1 force composes="text">Force test</styled.h1>
   </styled.header>
 )
 
-const Content = () => (
-  <styled.section.content
+const Content = ({ styled }) => (
+  <styled.section
+    composes="content"
     attrs={{
       'data-name': 'content',
     }}
     padding={20}
   >
-    <styled.p>compose multiple classes test</styled.p>
+    <styled.p composes="text h1">compose multiple classes test</styled.p>
 
     <styled.button>primitive test</styled.button>
     <styled.button margin={10}>dynamic primitive test</styled.button>
-  </styled.section.content>
+  </styled.section>
 )
 
-export default () => (
+export default injectStyled(styles)(({ styled }) => (
   <styled.app>
-    <Header />
+    <Header styled={styled} />
 
-    <Content />
+    <Content styled={styled} />
   </styled.app>
-)
+))
