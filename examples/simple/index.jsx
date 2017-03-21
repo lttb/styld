@@ -14,11 +14,25 @@ const styles = {
   content: {
     padding: ({ padding }) => `${padding}px`,
   },
-  h1: {
-    color: 'red',
+  section: {
+    _content: {
+      color: 'red',
+      composes: '$content',
+    },
   },
   text: {
     color: 'green',
+  },
+  h1: {
+    color: 'red',
+
+    _text: {
+      composes: '$text',
+    },
+  },
+  p: {
+    border: '1px solid black',
+    composes: '$text $h1'.split(' '),
   },
   button: {
     margin: ({ margin = 0 }) => `${margin}px`,
@@ -27,24 +41,24 @@ const styles = {
 
 const Header = ({ styled }) => (
   <styled.header>
-    <styled.h1>Styled JSS simple example</styled.h1>
+    <styled.h1>Just H1</styled.h1>
+    <styled.h1.text>Force test</styled.h1.text>
   </styled.header>
 )
 
 const Content = ({ styled }) => (
-  <styled.section
-    composes="content"
+  <styled.section.content
     attrs={{
       'data-name': 'content',
       ref: (c) => { console.log('SECTION REF', c) },
     }}
     padding={20}
   >
-    <styled.p composes="text">check this out</styled.p>
+    <styled.p>compose multiple classes test</styled.p>
 
-    <styled.button>first button</styled.button>
-    <styled.button margin={10}>second button</styled.button>
-  </styled.section>
+    <styled.button>primitive test</styled.button>
+    <styled.button margin={10}>dynamic primitive test</styled.button>
+  </styled.section.content>
 )
 
 const App = injectStyled(styles)(({ styled }) => (

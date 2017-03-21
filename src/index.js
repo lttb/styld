@@ -4,29 +4,29 @@ import injectSheet from 'react-jss'
 import preset from 'jss-preset-default'
 
 import domElements from './dom-elements'
+import prepareStyles, { styledClassFlag } from './prepare-styles'
 
 
 const JSS = createJSS(preset())
 
-const getClasses = ({ composes = [], classes = {} }) => composes
-  .reduce((acc, className) => acc.concat(classes[className] || []), [])
-  .join(' ')
-
 
 export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
-  const sheet = jss.createStyleSheet(styles).attach()
+  const stylesPrepared = prepareStyles(styles)
 
-  const Injector = injectSheet(styles)
+  const sheet = jss.createStyleSheet(stylesPrepared).attach()
+  const Injector = injectSheet(stylesPrepared)
 
-  const createStyledElement = (tag, name = tag) => ({ composes = '', children, attrs, force, ...data }) => {
+  const createStyledElement = (tag, name = tag) => ({ children, attrs, ...data }) => {
     const Element = ({ classes }) => React.createElement(
       tag,
       {
         ...attrs,
-        className: getClasses({
-          classes,
-          composes: composes.split(' ').concat(force ? [] : name),
-        }),
+
+        /*
+         * some problems with static/dynamic styles
+         * @see https://github.com/cssinjs/react-jss/issues/75
+         */
+        className: classes[name] || sheet.classes[name],
       },
       children,
     )
@@ -38,15 +38,31 @@ export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
     return React.createElement(Element, sheet)
   }
 
-  return new Proxy({}, {
-    get: (target, elem) => {
-      if (domElements.includes(elem)) {
-        return createStyledElement(elem)
+  return Object
+    .keys(stylesPrepared)
+    .reduce((acc, key) => {
+      const [elem, name] = key.split(styledClassFlag)
+
+      const isDomeElem = domElements.has(elem)
+
+      if (!isDomeElem) {
+        return { ...acc, [elem]: createStyledElement('div', elem) }
       }
 
-      return createStyledElement('div', elem)
-    },
-  })
+      if (name) {
+        return {
+          ...acc,
+          [elem]: Object.assign(acc[elem] || {}, {
+            [name]: createStyledElement(elem, key),
+          }),
+        }
+      }
+
+      return {
+        ...acc,
+        [elem]: Object.assign(createStyledElement(elem), acc[elem]),
+      }
+    }, {})
 }
 
 export const Styled = prepareStyled()
