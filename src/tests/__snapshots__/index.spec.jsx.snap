@@ -8,12 +8,12 @@ exports[`test renders correctly App 1`] = `
       Just H1
     </h1>
     <h1
-      className="h1_text-0-7 h1-0-6 text-0-5">
+      className="h1-0-6 h1_text-0-7 text-0-5">
       Force test
     </h1>
   </header>
   <section
-    className="section_content-0-4 section-0-3"
+    className="section-0-3 section_content-0-4"
     data-name="content">
     <p
       className="p-0-8 text-0-5 h1-0-6">
@@ -24,7 +24,7 @@ exports[`test renders correctly App 1`] = `
       primitive test
     </button>
     <button
-      className="button-0-33 button-0-31">
+      className="button-0-10 button-0-9">
       dynamic primitive test
     </button>
   </section>
@@ -33,31 +33,31 @@ exports[`test renders correctly App 1`] = `
 
 exports[`test renders correctly AppStyled 1`] = `
 <div
-  className="app-0-25">
+  className="app-0-11">
   <header
-    className="header-0-26">
+    className="header-0-12">
     <h1
-      className="h1-0-28">
+      className="h1-0-16">
       Just H1
     </h1>
     <h1
-      className="text-0-30">
+      className="h1-0-16 text-0-18">
       Force test
     </h1>
   </header>
   <section
-    className="content-0-39 content-0-34"
+    className="section-0-13 content-0-15"
     data-name="content">
     <p
-      className="text-0-30 h1-0-28 p-0-29">
+      className="p-0-17 text-0-18 h1-0-16">
       compose multiple classes test
     </p>
     <button
-      className="button-0-31">
+      className="button-0-19">
       primitive test
     </button>
     <button
-      className="button-0-49 button-0-47">
+      className="button-0-20 button-0-19">
       dynamic primitive test
     </button>
   </section>

@@ -1,6 +1,5 @@
-import { create as createJSS } from 'jss'
-import React, { Component } from 'react'
-import injectSheet from 'react-jss'
+import { create as createJSS, getDynamicStyles } from 'jss'
+import React, { PureComponent, Component } from 'react'
 import preset from 'jss-preset-default'
 
 import domElements from './dom-elements'
@@ -19,58 +18,86 @@ export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
   const stylesPrepared = prepareStyles(styles)
 
   const sheet = jss.createStyleSheet(stylesPrepared).attach()
-  const Injector = injectSheet(stylesPrepared)
 
-  const createStyledElement = (tag, name = tag) => ({ children, ...data }) => {
-    const { props, composes, attrs } = Object
-      .entries(data)
-      .reduce((acc, [key, value]) => {
-        if (key.startsWith(`$${styledClassFlag}`) && value) {
-          return Object.assign(acc, {
-            composes: acc.composes.add(name + key.slice(1)),
-          })
+  const createStyledElement = (tag, name = tag) =>
+    class StyledElement extends PureComponent {
+      render() {
+        const { children, ...data } = this.props
+
+        const { props, composes, attrs } = Object
+          .entries(data)
+          .reduce((acc, [key, value]) => {
+            if (key.startsWith(`$${styledClassFlag}`)) {
+              return !value ? acc : Object.assign(acc, {
+                composes: acc.composes.add(name + key.slice(1)),
+              })
+            }
+
+            if (key.startsWith('$')) {
+              return !value ? acc : Object.assign(acc, {
+                composes: acc.composes.add(key.slice(1)),
+              })
+            }
+
+            if (key.startsWith('_')) {
+              return Object.assign(acc, {
+                props: { ...acc.props, [key.slice(1)]: value },
+              })
+            }
+
+            return Object.assign(acc, {
+              attrs: { ...acc.attrs, [key]: value },
+            })
+          }, { props: {}, attrs: {}, composes: new Set([name]) })
+
+        if (Object.keys(props).length) {
+          if (!this.dynamicSheet) {
+            const dynamicStyles = getDynamicStyles({ [name]: stylesPrepared[name] })
+
+            this.dynamicSheet = jss.createStyleSheet(
+              dynamicStyles,
+              {
+                meta: 'ComponentDynamic',
+                link: true,
+              },
+            ).update(props).attach()
+          } else {
+            this.dynamicSheet.update(props)
+          }
+
+          const classes = Object.entries(this.dynamicSheet.classes).reduce((acc, [key, value]) => ({
+            ...acc,
+            [key]: acc[key]
+              ? `${value} ${acc[key]}`
+              : value,
+          }), sheet.classes)
+
+          return React.createElement(
+            tag,
+            {
+              ...attrs,
+              className: getClasses({
+                classes,
+                composes: [...composes],
+              }),
+            },
+            children,
+          )
         }
 
-        if (key.startsWith('$') && value) {
-          return Object.assign(acc, {
-            composes: acc.composes.add(key.slice(1)),
-          })
-        }
-
-        if (key.startsWith('_') && value) {
-          return Object.assign(acc, {
-            attrs: { ...acc.attrs, [key.slice(1)]: value },
-          })
-        }
-
-        return Object.assign(acc, {
-          props: { ...acc.props, [key]: value },
-        })
-      }, { props: {}, attrs: {}, composes: new Set([name]) })
-
-    const Element = ({ classes }) => React.createElement(
-      tag,
-      {
-        ...attrs,
-
-        /*
-         * some problems with static/dynamic styles
-         * @see https://github.com/cssinjs/react-jss/issues/75
-         */
-        className: getClasses({
-          classes: { ...sheet.classes, ...classes },
-          composes: [...composes],
-        }),
-      },
-      children,
-    )
-
-    if (Object.keys(props).length) {
-      return React.createElement(Injector(Element), props)
+        return React.createElement(
+          tag,
+          {
+            ...attrs,
+            className: getClasses({
+              classes: { ...sheet.classes },
+              composes: [...composes],
+            }),
+          },
+          children,
+        )
+      }
     }
-
-    return React.createElement(Element, sheet)
-  }
 
   return Object
     .keys(stylesPrepared)
