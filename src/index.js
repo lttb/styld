@@ -99,6 +99,13 @@ export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
       }
     }
 
+  const get = (...classes) =>
+    classes
+      .reduce((acc, name) => (name ? acc.concat(name.split(' ')) : acc), [])
+      .map(name => sheet.classes[name])
+      .filter(Boolean)
+      .join(' ')
+
   return Object
     .keys(stylesPrepared)
     .reduce((acc, key) => {
@@ -123,7 +130,7 @@ export const prepareStyled = ({ jss = JSS } = {}) => (styles) => {
         ...acc,
         [elem]: Object.assign(createStyledElement(elem), acc[elem]),
       }
-    }, {})
+    }, { get })
 }
 
 export const Styled = prepareStyled()
