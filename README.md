@@ -11,7 +11,7 @@
 ```jsx
 import { Styled } from 'styld'
 
-const styled = Styled({
+const $ = Styled({
     h1: {
         fontSize: '30px',
     },
@@ -25,11 +25,11 @@ const styled = Styled({
 
 
 const App = () => (
-    <styled.app>
-        <styled.h1>Hello World!</styled.h1>
+    <$.app>
+        <$.h1>Hello World!</$.h1>
 
-        <styled.button color="red">click me!</styled.button>
-    </styled.app>    
+        <$.button color="red">click me!</$.button>
+    </$.app>    
 )
 ```
 
@@ -69,12 +69,12 @@ const styles = {
     }
 }
 
-const App = ({ styled }) => (
-    <styled.app>
-        <styled.h1>Hello World!</styled.h1>
+const App = ({ $ }) => (
+    <$.app>
+        <$.h1>Hello World!</$.h1>
 
-        <styled.button color="red">click me!</styled.button>
-    </styled.app>    
+        <$.button color="red">click me!</$.button>
+    </$.app>    
 )
 
 
@@ -108,11 +108,11 @@ const styles = {
 }
 
 const App = ({ styled }) => (
-    <styled.app>
-        <styled.h1>Hello World!</styled.h1>
+    <$.app>
+        <$.h1>Hello World!</$.h1>
 
-        <styled.button color="red">click me!</styled.button>
-    </styled.app>    
+        <$.button color="red">click me!</$.button>
+    </$.app>    
 )
 
 
@@ -126,8 +126,10 @@ import StyledApp from './App'
 
 
 const customStyles = {
-    app: {
-        padding: 30px,
+    assign: {
+        app: {
+            padding: 30px,
+        },
     },
 }
 
