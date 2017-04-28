@@ -1,6 +1,4 @@
-# JSS Styled
-
-Styled primitives for JSS.
+# Styld
 
 > This project has experimental status, so API may change
 
@@ -11,7 +9,7 @@ Styled primitives for JSS.
 > Note, that styles applies to the page on the function call, so it's better to use [injectStyled](#injectstyled) in most cases
 
 ```jsx
-import { Styled } from 'jss-styled'
+import { Styled } from 'styld'
 
 const styled = Styled({
     h1: {
@@ -41,7 +39,7 @@ const App = () => (
 import jss from 'jss'
 import preset from 'jss-preset-default'
 
-import { prepareStyled } from 'jss-styled'
+import { prepareStyled } from 'styld'
 
 const jss = createJSS(preset())
 jss.use(somePlugin())
@@ -56,7 +54,7 @@ const Styled = prepareStyled({ jss })
 This wrapper applies styles only on the first component mount.
 
 ```jsx
-import injectStyled from 'jss-styled'
+import injectStyled from 'styld'
 
 
 const styles = {
@@ -89,7 +87,7 @@ export default injectStyled(styles)(App)
 import jss from 'jss'
 import preset from 'jss-preset-default'
 
-import injectStyled, { prepareStyled } from 'jss-styled'
+import injectStyled, { prepareStyled } from 'styld'
 
 
 const jss = createJSS(preset())
