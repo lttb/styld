@@ -10,6 +10,11 @@ const styles = {
   header: {
     padding: '10px',
   },
+  section: {
+    _content: {
+      color: 'red',
+    },
+  },
   content: {
     padding: ({ padding }) => `${padding}px`,
   },
@@ -30,22 +35,16 @@ const styles = {
 const Header = ({ styled }) => (
   <styled.header>
     <styled.h1>Just H1</styled.h1>
-    <styled.h1 force composes="text">Force test</styled.h1>
+    <styled.h1 $text>Force test</styled.h1>
   </styled.header>
 )
 
 const Content = ({ styled }) => (
-  <styled.section
-    composes="content"
-    attrs={{
-      'data-name': 'content',
-    }}
-    padding={20}
-  >
-    <styled.p composes="text h1">compose multiple classes test</styled.p>
+  <styled.section $content _padding={20} data-name="content">
+    <styled.p $text $h1>compose multiple classes test</styled.p>
 
     <styled.button>primitive test</styled.button>
-    <styled.button margin={10}>dynamic primitive test</styled.button>
+    <styled.button _margin={10}>dynamic primitive test</styled.button>
   </styled.section>
 )
 

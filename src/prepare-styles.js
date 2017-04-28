@@ -4,7 +4,7 @@ export const styledClassFlag = '_'
 export const pullOutStylesReducerByElem = elem => (elemStyles, [prop, val]) => ({
   ...elemStyles,
   ...prop.startsWith(styledClassFlag)
-    ? { [elem + prop]: { ...val, composes: [`$${elem}`].concat(val.composes || []) } }
+    ? { [elem + prop]: val }
     : { [elem]: { ...elemStyles[elem], [prop]: val } },
 })
 

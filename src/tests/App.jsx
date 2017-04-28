@@ -40,22 +40,17 @@ const styled = Styled({
 const Header = () => (
   <styled.header>
     <styled.h1>Just H1</styled.h1>
-    <styled.h1.text>Force test</styled.h1.text>
+    <styled.h1 $_text>Force test</styled.h1>
   </styled.header>
 )
 
 const Content = () => (
-  <styled.section.content
-    attrs={{
-      'data-name': 'content',
-    }}
-    padding={20}
-  >
+  <styled.section $_content data-name="content">
     <styled.p>compose multiple classes test</styled.p>
 
     <styled.button>primitive test</styled.button>
-    <styled.button margin={10}>dynamic primitive test</styled.button>
-  </styled.section.content>
+    <styled.button _margin={10}>dynamic primitive test</styled.button>
+  </styled.section>
 )
 
 export default () => (

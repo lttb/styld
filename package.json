@@ -1,6 +1,6 @@
 {
-  "name": "jss-styled",
-  "version": "0.0.1",
+  "name": "styld",
+  "version": "0.1.2",
   "description": "Styled primitives with JSS",
   "main": "lib/index.js",
   "scripts": {
@@ -12,6 +12,10 @@
     "prebuild": "npm run clean && npm run lint && npm run test:coverage",
     "build": "babel src --out-dir lib --ignore tests"
   },
+  "files": [
+    "src",
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lttb/jss-styled.git"
